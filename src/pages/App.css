@@ -1,0 +1,301 @@
+.App {
+  text-align: center;
+}
+
+.App-logo {
+  height: 40vmin;
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .App-logo {
+    animation: App-logo-spin infinite 20s linear;
+  }
+}
+
+
+
+.App-link {
+  color: #61dafb;
+}
+
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+.custom-size {
+  height: 40px; 
+  font-size: 1rem; 
+ width: 30%;
+  padding: 0.5rem; 
+  padding: 10px; /* Space inside the textbox */
+  border-radius: 5px; /* Rounded corners */
+  font-size: 16px; /* Font size */
+  transition: border-color 0.3s, box-shadow 0.3s; /* Smooth transitions */
+}
+.custom-size22 {
+  display: flex;
+  align-items: center;
+  width: 40%;
+}
+
+.size22 {
+  font-size: 20px; /* Adjust the icon size as needed */
+}
+
+.custom-size {
+  width: 100%; /* Ensure input takes full width inside its column */
+  padding-left: 10px; /* Add some padding if you want more space between icon and input */
+}
+.custom-size:focus {
+  border-color: #007bff; /* Change border color on focus */
+  box-shadow: 0 0 5px rgba(0, 123, 255, 0.5); /* Add a shadow effect */
+  outline: none; /* Remove default outline */
+}
+.custom-size::placeholder {
+  color: #aaa; /* Placeholder text color */
+  opacity: 1; /* Ensure full opacity */
+}
+
+.size{
+
+  height: 20px;
+}
+.size1{
+
+  height: 30px;
+}
+.profile{
+  height: 30px;
+}
+.table {
+  width: 80%;
+  max-width: 1200px;
+  border-collapse: collapse;
+  margin: 0 auto;
+ 
+}
+
+.cell {
+  padding: 10px;
+  border: 1px solid #ddd;
+}
+.color {
+
+ 
+  color: 'green';
+  border: 'none';
+  padding: '10px 20px';
+  cursor: 'pointer';
+  
+}
+/*------TABLE*/
+.col-actions {
+  width: 20%;
+}
+.col-actions2 {
+  width: 15%;
+}
+.col-actions3 {
+  width: 5%;
+}
+
+.col-actions1 {
+  width: 10%;
+}
+.header {
+  background-color: gray;
+  display: flex;
+  justify-content: space-between;
+
+  -webkit-text-fill-color: aliceblue;
+}
+/* Ensure the body and html take full height */
+
+html, body {
+  height: 100%;
+  margin: 0;
+}
+/* Ensure the main container fills the viewport height */
+.container-fluid {
+  height: 100%;
+  width: 100px;
+}
+
+/* Ensure the sidebar fills the available height */
+.bg-dark {
+  height: 100vh;
+}
+
+/* Adjust the content area */
+.col {
+  flex: 2;
+}
+
+.alot{
+  float: right;
+  
+}
+.custom-container {
+  background-color: rgb(88, 76, 76); /* Set background color to brown */
+  color: white; /* Ensure text is readable on brown background */
+  text-align: left; /* Align text to the left */
+  padding: 20px; /* Add some padding for better spacing */
+  margin: 0; /* Remove default margin if necessary */
+  border-radius: 8px; /* Rounded corners for a softer look */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Optional: Add shadow for a lifted effect */
+}
+.custom-container1 {
+  background-color: rgb(88, 76, 76); /* Set background color to brown */
+  color: white; /* Ensure text is readable on brown background */
+  text-align: left; /* Align text to the left */
+  padding: 20px; /* Add some padding for better spacing */
+  margin: 0; /* Remove default margin if necessary */
+  width: 20%; /* Adjust the width to be more visible, e.g., 70% */
+  border: 3px solid #d3b99f; /* Add a border with a color */
+  border-radius: 8px; /* Rounded corners for a softer look */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Optional: Add shadow for a lifted effect */
+}
+
+/* General link styles */
+.nav-link {
+  color: rgb(9, 236, 123);
+  text-decoration: none;
+  transition: color 0.3s, background-color 0.3s, padding 0.3s; /* Smooth transition for color changes */
+  padding: 10px 15px; /* Add padding for better click area */
+  border-radius: 4px; /* Rounded corners */
+  width: 130px;
+}
+
+.nav-link:hover {
+  color: #62ec05; /* Highlight color on hover */
+  background-color: rgba(255, 255, 255, 0.2); /* Slight background color change for contrast */
+}
+
+.nav-link.active {
+  background-color: #007bff; /* Active link background color */
+  color: white; /* Text color for active link */
+  box-shadow: 0 4px 8px rgba(0, 123, 255, 0.3); /* Subtle shadow for active link */
+}
+
+.dropdown-toggle {
+  color: white; /* Dropdown text color */
+  transition: color 0.3s; /* Smooth color transition */
+}
+
+.dropdown-toggle:hover {
+  color: #62ec05; /* Highlight color on hover */
+}
+
+.dropdown-menu {
+  background-color: #343a40; /* Dropdown background color */
+  border-radius: 4px; /* Rounded corners for dropdown */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3); /* Subtle shadow for dropdown */
+}
+
+.dropdown-item {
+  color: white; /* Dropdown item text color */
+  padding: 10px 15px; /* Padding for dropdown items */
+  transition: background-color 0.3s; /* Smooth background transition */
+}
+
+.dropdown-item:hover {
+  background-color: #007bff; /* Dropdown item hover color */
+  color: white; /* Maintain text color on hover */
+}
+
+.round-image {
+  border-radius: 50%; /* Makes the image round */
+  width: 100px; /* Set your desired width */
+  height: 100px; /* Set your desired height */
+  object-fit: cover; /* Ensures the image covers the area without distortion */
+  margin-bottom: 40px; /* Adjust this value to move the image up */
+}
+
+.table-radio {
+  display: flex;
+  justify-content: center; /* Centers the content horizontally */
+  align-items: center; /* Centers the content vertically */
+  height: 100%; /* Ensures full height for vertical centering */
+}
+
+
+@media (max-width: 576px) {
+  
+  .mobile-menu {
+   
+    .nav-link {
+      text-decoration: none;
+      transition: color 0.3s, background-color 0.3s, padding 0.3s; /* Smooth transition for color changes */
+      padding: 10px 15px; /* Add padding for better click area */
+      border-radius: 4px; /* Rounded corners */
+      width: 30px;
+    }
+    .side-bar{
+      width: 100px;
+      height: auto;
+      
+    }
+    .font-size{
+      font-size: 10px;
+    }
+    .round-image {
+     margin-top:700%;
+      border-radius: 50%; /* Makes the image round */
+      width:70px; /* Set your desired width */
+      height: 70px; /* Set your desired height */
+      object-fit: cover; /* Ensures the image covers the area without distortion */
+      margin-bottom: 30px; /* Adjust this value to move the image up */
+    }
+    .nav-link {
+      color: rgb(13, 213, 240);
+      text-decoration: none;
+      padding: 10px 15px; /* Add padding for better click area */
+      border-radius: 4px; /* Rounded corners */
+      width: 80px;
+    }
+    
+    .card-container {
+      width: auto; /* Full width */
+      max-width: 600px; /* Maximum width for larger screens */
+      border-radius: 10px; /* Rounded corners */
+      margin: 0 auto; /* Center the container */
+      color: white; /* Text color */
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Shadow effect */
+    }
+    
+    .table {
+      width: 100%; /* Ensure the table takes full width of the container */
+      table-layout: auto; /* Use automatic layout */
+    }
+    
+    .table th,
+    .table td {
+      white-space: nowrap; /* Prevent text from wrapping */
+      
+    }
+    
+    /* Optional: Add spacing between rows */
+    .table tr {
+      margin-bottom: 10px; /* Add space between rows */
+    }
+    .profile {
+      font-size: 2rem;
+    }
+   
+    
+    
+    
+   
+    
+    
+    
+   
+  }
+  
+}
+

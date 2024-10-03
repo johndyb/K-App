@@ -1,0 +1,146 @@
+/* General Reset */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Poppins', sans-serif;
+}
+
+body11 {
+  background-color: #f0f2f5;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  font-size: 16px;
+}
+
+/* Container for the entire form */
+.container11 {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background-color: #f0f2f5;
+}
+
+.wrapper11 {
+  background-color: white;
+  padding: 40px 30px;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  width: 400px;
+  text-align: center;
+}
+
+.title {
+  font-size: 24px;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 30px;
+}
+
+/* Row Styles */
+.row {
+  margin-bottom: 20px;
+}
+
+input[type="text"],
+input[type="password"] {
+  width: 100%;
+  padding: 12px;
+  border-radius: 8px;
+  border: 1px solid #ddd;
+  font-size: 14px;
+  margin-top: 8px;
+}
+
+input[type="text"]:focus,
+input[type="password"]:focus {
+  outline: none;
+  border-color: #1e90ff;
+}
+
+.button input {
+  width: 100%;
+  padding: 12px;
+  background-color: #1e90ff;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.button input:hover {
+  background-color: #005eff;
+}
+
+/* Forgot Password and Signup Link Styles */
+.row.pass a,
+.signup-link a {
+  text-decoration: none;
+  color: #1e90ff;
+  font-size: 14px;
+}
+
+.row.pass {
+  text-align: right;
+}
+
+.row.pass a:hover,
+.signup-link a:hover {
+  text-decoration: underline;
+}
+
+/* Social Login Section */
+.or {
+  margin: 20px 0;
+  position: relative;
+  text-align: center;
+  font-size: 14px;
+}
+
+.or::before,
+.or::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  width: 40%;
+  height: 1px;
+  background: #ddd;
+}
+
+.or::before {
+  left: 0;
+}
+
+.or::after {
+  right: 0;
+}
+
+.social-login {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+}
+
+.social-login a {
+  display: inline-block;
+  width: 48%;
+  padding: 10px;
+  border-radius: 8px;
+  font-size: 14px;
+  text-align: center;
+  color: #fff;
+  background-color: #3b5998; /* Default Facebook color */
+  cursor: pointer;
+}
+
+.social-login a.google {
+  background-color: #db4437; /* Google color */
+}
+
+.social-login a:hover {
+  opacity: 0.9;
+}
