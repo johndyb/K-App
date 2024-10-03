@@ -1,4 +1,4 @@
-import { BrowserRouter as Router, Route, Routes, Link } from "react-router-dom";
+import { useNavigate } from 'react-router-dom';
 import React, { useState, useEffect } from 'react';
 import { collection, getDocs, query, where } from "firebase/firestore";
 import { db } from "../firebase-config";
@@ -7,7 +7,7 @@ import * as icon from '@coreui/icons';
 import Calendar from 'react-calendar';
 import 'react-calendar/dist/Calendar.css'; // Import the CSS for the calendar
 import "./dashbard.css"; // Ensure the CSS file name is correct
-import { NavLink } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 
 const Dashboard = ({ onLogout }) => { // Accept onLogout prop
   const [userCount, setUserCount] = useState(0);
@@ -74,7 +74,7 @@ const Dashboard = ({ onLogout }) => { // Accept onLogout prop
   const handleDateChange = (newDate) => {
     setDate(newDate);
   };
-
+  const adminData = JSON.parse(sessionStorage.getItem('adminData'));
   return (
     <div className="mobile-menu">
       <div className="container-fluid mobile-menu">
@@ -91,7 +91,7 @@ const Dashboard = ({ onLogout }) => { // Accept onLogout prop
                   <NavLink
                     className={`nav-link align-middle px-0`}
                     to="/home"
-                    activeClassName="active" // Apply active class
+                    activeClassName="active"
                   >
                     <CIcon icon={icon.cilHome} className="profile ms-4" /> <span className="ms-1 d-none d-sm-inline">Home</span>
                   </NavLink>
@@ -101,7 +101,7 @@ const Dashboard = ({ onLogout }) => { // Accept onLogout prop
                   <NavLink
                     className={`nav-link px-0 align-middle`}
                     to="/dashboard"
-                    activeClassName="active" // Apply active class
+                    activeClassName="active"
                   >
                     <CIcon icon={icon.cilColorPalette} className="profile dashboard-size" /> <span className="ms-1 d-none d-sm-inline">Dashboard</span>
                   </NavLink>
@@ -113,7 +113,7 @@ const Dashboard = ({ onLogout }) => { // Accept onLogout prop
               </div>
               <div className="dropdown pb-4">
                 <a href="#" className="d-flex align-items-center text-white text-decoration-none dropdown-toggle" id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">
-                  <span className="d-none d-sm-inline mx-1">ADMIN</span>
+                  <span className="d-none d-sm-inline mx-1">{adminData.name}</span>
                 </a>
                 <ul className="dropdown-menu dropdown-menu-dark text-small shadow">
                   <li><a className="dropdown-item" href="#">Profile</a></li>
@@ -122,6 +122,7 @@ const Dashboard = ({ onLogout }) => { // Accept onLogout prop
               </div>
             </div>
           </div>
+          {/* Dashboard content */}
           <center>
             <h1>Dashboard</h1>
             <p>Welcome to the Dashboard!</p>

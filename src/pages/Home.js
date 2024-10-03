@@ -1,4 +1,4 @@
-import { BrowserRouter as Router, Route, Routes, Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { useState, useEffect, useReducer } from "react";
 import "./App.css";
 import { db } from "../firebase-config";
@@ -114,9 +114,14 @@ const handleModalPageChange = (pageNumber) => {
      getUsers();
    }, [reducerValue]);
    // Add user
+
+   
    const createUser = async (newName, newAge, newContactNumber) => {
-    const adminId = JSON.parse(sessionStorage.getItem('adminData'))?.id; 
-    console.log('Admin ID:', adminId);
+    const adminData = sessionStorage.getItem('adminData');
+    console.log('Raw adminData from sessionStorage:', adminData); // Check session storage content
+    
+    const adminId = JSON.parse(adminData)?.id; 
+    console.log('Admin ID:', adminId); // Log Admin ID
   
     if (!adminId) {
       Swal.fire("Error adding user!", "Admin ID is not available.", "error");
@@ -140,7 +145,7 @@ const handleModalPageChange = (pageNumber) => {
         adminId: adminId  
       });
     
-      forceUpdate();
+      forceUpdate();  // Ensure forceUpdate() and setShow() are implemented properly
       setShow(false);
       Swal.fire({
         title: "Success",
@@ -149,10 +154,11 @@ const handleModalPageChange = (pageNumber) => {
         confirmButtonText: 'OK'
       });
     } catch (error) {
-      Swal.fire("Error adding user!");
+      Swal.fire("Error adding user!", error.message || "An unknown error occurred.", "error");
       console.error("Error adding user: ", error);
     }
-  };
+};
+
   
   
   
