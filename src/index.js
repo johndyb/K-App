@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import ReactDOM from 'react-dom/client';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import Login from './pages/Login';
@@ -34,8 +34,12 @@ const App = () => {
       navigate('/login'); // Redirect to login after logout
     };
   
-    return <Dashboard onLogout={handleLogoutClick} />;
-    return <Home onLogout={handleLogoutClick} />;
+    return (
+      <>
+        <Dashboard onLogout={handleLogoutClick} />
+        <Home onLogout={handleLogoutClick} />
+      </>
+    );
   };
 
   return (
@@ -51,11 +55,10 @@ const App = () => {
         <Route path="/register" element={<Register />} />
         
         {/* Home route, accessible only when authenticated */}
-        <Route path="/home" element={isAuthenticated ? <Home /> : <Navigate to="/login" />} />
+        <Route path="/home" element={isAuthenticated ? <Home onLogout={handleLogout} /> : <Navigate to="/login" />} />
         
         {/* Dashboard route, accessible only when authenticated */}
-        <Route path="/home" element={isAuthenticated ? <ParentComponent /> : <Navigate to="/login" />} />
-        <Route path="/dashboard" element={isAuthenticated ? <ParentComponent /> : <Navigate to="/login" />} />
+        <Route path="/dashboard" element={isAuthenticated ? <Dashboard onLogout={handleLogout} /> : <Navigate to="/login" />} />
       </Routes>
     </Router>
   );
