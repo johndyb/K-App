@@ -12,6 +12,8 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.bundle.min.js";
 import { NavLink } from "react-router-dom";
 import { serverTimestamp } from "firebase/firestore";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faSearch } from '@fortawesome/free-solid-svg-icons';
 
 
 const Home = ({onLogout}) => {
@@ -23,7 +25,8 @@ const Home = ({onLogout}) => {
    const handleShow = () => setShow(true);
    const [payorId, setPayorId] = useState(null);
  
- 
+   const [newBeneficiaries, setNewBeneficiaries] = useState('');
+
    // Form state
    const [newName, setNewName] = useState("");
    const [newAge, setNewAge] = useState("");
@@ -116,7 +119,7 @@ const handleModalPageChange = (pageNumber) => {
    // Add user
 
    
-   const createUser = async (newName, newAge, newContactNumber) => {
+   const createUser = async (newName, newAge, newContactNumber, newBeneficiaries) => {
     const adminData = sessionStorage.getItem('adminData');
     console.log('Raw adminData from sessionStorage:', adminData); // Check session storage content
     
@@ -128,8 +131,8 @@ const handleModalPageChange = (pageNumber) => {
       return;
     }
     
-    console.log('Parameters:', { newName, newAge, newContactNumber });
-    if (!newName || !newAge || !newContactNumber) {
+    console.log('Parameters:', { newName, newAge, newContactNumber, newBeneficiaries });
+    if (!newName || !newAge || !newContactNumber || !newBeneficiaries) {
       Swal.fire("Error adding user!", "Please provide all required fields.", "error");
       return;
     }
@@ -139,6 +142,7 @@ const handleModalPageChange = (pageNumber) => {
         name: newName, 
         age: Number(newAge), 
         contactNumber: newContactNumber,
+        beneficiaries: newBeneficiaries, // New column for beneficiaries
         createdAt: serverTimestamp(),
         status: 'ACTIVE',
         payment: 'danger',
@@ -163,35 +167,34 @@ const handleModalPageChange = (pageNumber) => {
   
   
    
-   const handleUpdate = async () => {
-     if (editId) {
-       try {
-         const userDoc = doc(db, "users", editId);
-         await updateDoc(userDoc, { 
-           name: newName, 
-           age: Number(newAge), 
-           contactNumber: newContactNumber // Add this line
-           
-         });
-         forceUpdate();
-         setEditId(null);
-         setShow(false);
-         Swal.fire({
-           title: `UPDATED `,
-           text: 'Member Updated!',
-           icon: 'success',
-           confirmButtonText: 'OK'
-         });
- 
-       } catch (error) {
-         Swal.fire("Error updating user!");
-         console.error("Error updating user: ", error);
- 
- 
-       }
-     }
-   };
-   
+const handleUpdate = async () => {
+  if (editId) {
+    try {
+      const userDoc = doc(db, "users", editId); // Get reference to the document
+      await updateDoc(userDoc, { 
+        name: newName, 
+        age: Number(newAge), 
+        contactNumber: newContactNumber,
+        beneficiaries: newBeneficiaries // Add this line to update beneficiaries
+      });
+
+      forceUpdate(); // Ensure the UI refreshes
+      setEditId(null); // Clear edit ID
+      setShow(false); // Close modal
+      Swal.fire({
+        title: `UPDATED`,
+        text: 'Member Updated!',
+        icon: 'success',
+        confirmButtonText: 'OK'
+      });
+
+    } catch (error) {
+      Swal.fire("Error updating user!", error.message || "An unknown error occurred.", "error");
+      console.error("Error updating user: ", error);
+    }
+  }
+};
+
  
    // Delete user
    const deleteUser = async (id) => {
@@ -227,10 +230,11 @@ const handleModalPageChange = (pageNumber) => {
 
  
    // Handle edit button click
-   const handleEdit = (id, name, age, contactNumber) => {
+   const handleEdit = (id, name, age, contactNumber,beneficiaries ) => {
      setNewName(name);
      setNewAge(age);
      setNewContactNumber(contactNumber);
+    setNewBeneficiaries(beneficiaries || ""); // Set beneficiaries for editing, default to empty if undefined
      setEditId(id);
      handleShow();
    };
@@ -483,16 +487,19 @@ const handleModalPageChange = (pageNumber) => {
                  
                  <div className="custom-size22 row align-items-center"> 
                 <div className="col-auto">
-                <CIcon icon={icon.cilSearch} className="size1" />
+               
                 </div>
                 <div className="col">
-                  <input
-                    type="text"
-                    className="form-control custom-size" 
-                    value={searchTerm}
-                    onChange={handleInputChange}
-                    placeholder="Type to search"
-                  />
+                <div className="search-container">
+                <input
+                  type="text"
+                  className="custom-search-bar"
+                  value={searchTerm}
+                  onChange={handleInputChange}
+                  placeholder="Type to search"
+                />
+                <FontAwesomeIcon icon={faSearch} className="search-icon" />
+              </div>
                 </div>
               </div>
                 
@@ -502,52 +509,66 @@ const handleModalPageChange = (pageNumber) => {
                  
                   {/* Modal */}
                   <Modal show={show} onHide={handleClose}>
-                    <Modal.Header closeButton>
-                      <Modal.Title>{editId ? "EDIT MEMBER" : "ADD MEMBER"}</Modal.Title>
-                    </Modal.Header>
-                    <Modal.Body>
-              COMPLETE NAME:
-              <center>
-                <input
-                  className="form-control"
-                  value={newName}
-                  onChange={(event) => setNewName(event.target.value)}
-                />
-                </center>
-                AGE:
-                <center>
-                  <input
-                  type="number"
-                  className="form-control"
-                  value={newAge}
-                  onChange={(event) => setNewAge(event.target.value)}
-                />
-                </center>
-                CONTACT NUMBER:
-                <center>
-                <input
-                  type="text"
-                  className="form-control"
-                  value={newContactNumber}
-                  onChange={(event) => setNewContactNumber(event.target.value)}
-                />
-              </center>
-            </Modal.Body>
-                    <Modal.Footer>
-                      <Button variant="secondary" onClick={handleClose}>
-                        Close
-                      </Button>
-                      {editId ? (
-                        <Button variant="primary" onClick={handleUpdate}>
-                          Update
-                        </Button>
-                      ) : (
-                        <Button variant="primary" onClick={() => createUser(newName, newAge, newContactNumber)}>
-                          ADD NEW MEMBER
-                        </Button>
-                      )}
-                    </Modal.Footer>
-                  </Modal>
+  <Modal.Header closeButton>
+    <Modal.Title>{editId ? "EDIT MEMBER" : "ADD MEMBER"}</Modal.Title>
+  </Modal.Header>
+  <Modal.Body>
+    COMPLETE NAME:
+    <center>
+      <input
+        className="form-control"
+        value={newName}
+        onChange={(event) => setNewName(event.target.value)}
+      />
+    </center>
+    AGE:
+    <center>
+      <input
+        type="number"
+        className="form-control"
+        value={newAge}
+        onChange={(event) => setNewAge(event.target.value)}
+      />
+    </center>
+    CONTACT NUMBER:
+    <center>
+      <input
+        type="text"
+        className="form-control"
+        value={newContactNumber}
+        onChange={(event) => setNewContactNumber(event.target.value)}
+      />
+    </center>
+     BENEFICIARIES:
+  <center>
+    <textarea
+      className="form-control"
+      value={newBeneficiaries}
+      rows={7} // Adjust height
+      placeholder="Enter beneficiaries.."
+      onChange={(event) => setNewBeneficiaries(event.target.value)}
+    />
+  </center>
+  </Modal.Body>
+  <Modal.Footer>
+    <Button variant="secondary" onClick={handleClose}>
+      Close
+    </Button>
+    {editId ? (
+      <Button variant="primary" onClick={handleUpdate}>
+        Update
+      </Button>
+    ) : (
+      <Button
+        variant="primary"
+        onClick={() => createUser(newName, newAge, newContactNumber, newBeneficiaries)}
+      >
+        ADD NEW MEMBER
+      </Button>
+    )}
+  </Modal.Footer>
+</Modal>
+
                   
                   <div id="modal" inert>
                   <Modal show={showDeceasedModal} onHide={() => setShowDeceasedModal(false)}>
@@ -568,7 +589,7 @@ const handleModalPageChange = (pageNumber) => {
     </div>
 
     {/* Paginated Deceased Users */}
-    <Table striped bordered hover>
+    <Table  bordered hover>
       <thead>
         <tr>
           <th>Select</th>
@@ -579,6 +600,7 @@ const handleModalPageChange = (pageNumber) => {
       <tbody>
         {currentModalUsers.map((user) => (
           <tr key={user.id}>
+            <center>
             <td>
               <input
                 type="checkbox"
@@ -588,7 +610,9 @@ const handleModalPageChange = (pageNumber) => {
                 onChange={() => handleCheckboxChange(user.id)}
               />
             </td>
+            </center>
             <td>{user.name}</td>
+            <center>
             <td>
               {isHasPayment(user.id) ? (
                 <button className="btn btn-success">Paid</button>
@@ -596,23 +620,54 @@ const handleModalPageChange = (pageNumber) => {
                 <button className="btn btn-danger">Unpaid</button>
               )}
             </td>
+            </center>
           </tr>
         ))}
       </tbody>
     </Table>
 
-    {/* Pagination Controls */}
-    <div className="d-flex justify-content-center">
-      <ul className="pagination">
-        {Array.from({ length: Math.ceil(filteredModalUsers.length / modalItemsPerPage) }, (_, i) => (
-          <li key={i} className={`page-item ${modalCurrentPage === i + 1 ? 'active' : ''}`}>
-            <button className="page-link" onClick={() => handleModalPageChange(i + 1)}>
-              {i + 1}
-            </button>
-          </li>
-        ))}
-      </ul>
-    </div>
+  {/* Pagination Controls */}
+<div className="d-flex justify-content-center">
+  <ul className="pagination">
+
+    {/* Previous Button */}
+    <li className={`page-item ${modalCurrentPage === 1 ? 'disabled' : ''}`}>
+      <button
+        className="page-link"
+        onClick={() => handleModalPageChange(modalCurrentPage - 1)}
+        disabled={modalCurrentPage === 1}
+      >
+        Previous
+      </button>
+    </li>
+
+    {/* Page Numbers */}
+    {Array.from({ length: Math.ceil(filteredModalUsers.length / modalItemsPerPage) }, (_, i) => (
+      <li key={i} className={`page-item ${modalCurrentPage === i + 1 ? 'active' : ''}`}>
+        <button className="page-link" onClick={() => handleModalPageChange(i + 1)}>
+          {i + 1}
+        </button>
+      </li>
+    ))}
+
+    {/* Next Button */}
+    <li
+      className={`page-item ${
+        modalCurrentPage === Math.ceil(filteredModalUsers.length / modalItemsPerPage) ? 'disabled' : ''
+      }`}
+    >
+      <button
+        className="page-link"
+        onClick={() => handleModalPageChange(modalCurrentPage + 1)}
+        disabled={modalCurrentPage === Math.ceil(filteredModalUsers.length / modalItemsPerPage)}
+      >
+        Next
+      </button>
+    </li>
+
+  </ul>
+</div>
+
   </Modal.Body>
   <Modal.Footer>
     <Button variant="secondary" onClick={() => setShowDeceasedModal(false)}>
@@ -649,7 +704,8 @@ const handleModalPageChange = (pageNumber) => {
                           <Button variant="danger" onClick={() => deleteUser(user.id)}>
                             <CIcon icon={icon.cilTrash} className="size" />
                           </Button>
-                          <Button variant="info" onClick={() => handleEdit(user.id, user.name, user.age, user.contactNumber)}>
+
+                          <Button variant="info" onClick={() => handleEdit(user.id, user.name, user.age, user.contactNumber, user.beneficiaries)}>
                             <CIcon icon={icon.cilColorBorder} className="size" />
                           </Button>
                         </td>

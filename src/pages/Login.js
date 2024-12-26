@@ -10,7 +10,8 @@ const Login = ({ onLogin }) => {
   const [password, setPassword] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
   const [redirect, setRedirect] = useState(false); // State for redirecting after login
-
+  const [showPassword, setShowPassword] = useState(false);
+  
   const handleSubmit = async (e) => {
     e.preventDefault();
     setErrorMessage('');
@@ -48,7 +49,9 @@ const Login = ({ onLogin }) => {
       setErrorMessage("Error logging in. Please try again.");
     }
   };
-
+  const togglePasswordVisibility = () => {
+    setShowPassword(!showPassword);
+  };
   // Return early if redirecting
   if (redirect) {
     return <Navigate to="/home" />;
@@ -73,15 +76,16 @@ const Login = ({ onLogin }) => {
             />
           </div>
           <div className="row">
-            <input
-              id="password"
-              name="password"
-              type="password"
-              placeholder="Password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              required
-            />
+          <input
+        id="password"
+        name="password"
+        type={showPassword ? "text" : "password"} // Toggle between text and password
+        placeholder="Password"
+        value={password}
+        onChange={(e) => setPassword(e.target.value)}
+        required
+        style={{ width: '100%', padding: '10px', paddingRight: '40px' }} // Padding for the icon
+      />
           </div>
          
           <div className="button">
